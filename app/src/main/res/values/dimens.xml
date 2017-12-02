@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <dimen name="activity_horizontal_margin">15dp</dimen>
+    <dimen name="ic_profile_size">40dp</dimen>
+  <dimen name="contributor_name_text_size">16sp</dimen>
 </resources>

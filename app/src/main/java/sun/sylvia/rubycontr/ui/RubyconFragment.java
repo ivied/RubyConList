@@ -4,6 +4,9 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +27,9 @@ import java.util.List;
 import java.util.Locale;
 import javax.inject.Inject;
 import sun.sylvia.rubycontr.R;
-import sun.sylvia.rubycontr.github.Contributor;
+import sun.sylvia.rubycontr.github.ContributorStats;
 import sun.sylvia.rubycontr.github.GithubApi;
+import sun.sylvia.rubycontr.ui.adapter.ContributorsStatsAdapter;
 
 import static java.lang.String.format;
 
@@ -37,29 +41,44 @@ public class RubyconFragment extends Fragment implements RubyconContract.View{
 
   private static final String TAG = "RubyconFragment";
 
-  @BindView(R.id.list) ListView contributorsList;
+  @BindView(R.id.list) RecyclerView contributorsList;
 
   @Inject RubyconContract.Presenter presenter;
   @Inject GithubApi githubApi;
 
-  private ArrayAdapter<String> adapter;
+  private ContributorsStatsAdapter mAdapter;
+  private LinearLayoutManager linearLayoutManager;
   private CompositeDisposable disposables;
   private Unbinder unbinder;
-
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    disposables = new CompositeDisposable();
-  }
 
   @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
     View layout = inflater.inflate(R.layout.fragment_retrofit, container, false);
     unbinder = ButterKnife.bind(this, layout);
-    adapter = new ArrayAdapter<>(getActivity(), R.layout.item_log, R.id.item_log, new ArrayList<>());
-    contributorsList.setAdapter(adapter);
-    getListRubyContrib();
+
+    initiate();
 
     return layout;
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    presenter.onStart();
+  }
+
+  private void initiate() {
+    initiateRecyclerView();
+    contributorsList.setAdapter(mAdapter);
+  }
+
+  private void initiateRecyclerView() {
+    mAdapter = new ContributorsStatsAdapter(new ArrayList<>(), presenter);
+    linearLayoutManager = new LinearLayoutManager(getActivity());
+    contributorsList.setLayoutManager(linearLayoutManager);
+    contributorsList.setHasFixedSize(true);
+    contributorsList.setItemAnimator(new DefaultItemAnimator());
+    contributorsList.setAdapter(mAdapter);
   }
 
   @Override public void onDestroyView() {
@@ -72,30 +91,6 @@ public class RubyconFragment extends Fragment implements RubyconContract.View{
     disposables.dispose();
   }
 
-  public void getListRubyContrib() {
-
-    disposables.add(
-        githubApi.contributors(getString(R.string.ruby), getString(R.string.ruby))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(new DisposableObserver<List<Contributor>>() {
-
-              @Override public void onComplete() {
-                Log.d(TAG, "Retrofit call completed");
-              }
-
-              @Override public void onError(Throwable e) {
-                Log.e(TAG, e.getMessage());
-                Toast.makeText(getActivity(), "Something went wrong, check the code", Toast.LENGTH_LONG).show();
-              }
-
-              @Override public void onNext(List<Contributor> contributors) {
-                for (Contributor c : contributors) {
-                  adapter.add(format(Locale.UK, "%s has made %d contributions to %s", c.login, c.contributions, getString(R.string.ruby)));
-                }
-              }
-            }));
-  }
 
 
   @Override
@@ -104,4 +99,14 @@ public class RubyconFragment extends Fragment implements RubyconContract.View{
     super.onAttach(context);
   }
 
+  @Override
+  public void showToast(String text) {
+
+    Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+  }
+
+  @Override
+  public void showList(List<ContributorStats> contributors) {
+    mAdapter.updateData(contributors);
+  }
 }
