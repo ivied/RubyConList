@@ -7,24 +7,19 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.AndroidInjection;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
 import javax.inject.Inject;
 import sun.sylvia.rubycontr.R;
 import sun.sylvia.rubycontr.github.ContributorStats;
@@ -53,10 +48,15 @@ public class RubyconFragment extends Fragment implements RubyconContract.View{
 
   @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-    View layout = inflater.inflate(R.layout.fragment_retrofit, container, false);
+    View layout = inflater.inflate(R.layout.fragment_rubycon, container, false);
     unbinder = ButterKnife.bind(this, layout);
 
-    initiate();
+    mAdapter = new ContributorsStatsAdapter(new ArrayList<>(), presenter);
+    linearLayoutManager = new LinearLayoutManager(getActivity());
+    contributorsList.setLayoutManager(linearLayoutManager);
+    contributorsList.setHasFixedSize(true);
+    contributorsList.setItemAnimator(new DefaultItemAnimator());
+    contributorsList.setAdapter(mAdapter);
 
     return layout;
   }
@@ -64,22 +64,9 @@ public class RubyconFragment extends Fragment implements RubyconContract.View{
   @Override
   public void onStart() {
     super.onStart();
-    presenter.onStart();
+    presenter.downloadContributors();
   }
 
-  private void initiate() {
-    initiateRecyclerView();
-    contributorsList.setAdapter(mAdapter);
-  }
-
-  private void initiateRecyclerView() {
-    mAdapter = new ContributorsStatsAdapter(new ArrayList<>(), presenter);
-    linearLayoutManager = new LinearLayoutManager(getActivity());
-    contributorsList.setLayoutManager(linearLayoutManager);
-    contributorsList.setHasFixedSize(true);
-    contributorsList.setItemAnimator(new DefaultItemAnimator());
-    contributorsList.setAdapter(mAdapter);
-  }
 
   @Override public void onDestroyView() {
     super.onDestroyView();

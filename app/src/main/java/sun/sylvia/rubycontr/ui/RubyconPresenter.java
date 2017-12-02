@@ -6,6 +6,9 @@ import android.widget.Toast;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,7 +44,7 @@ public class RubyconPresenter implements RubyconContract.Presenter {
   }
 
   @Override
-  public void onStart() {
+  public void downloadContributors() {
 
     disposables = new CompositeDisposable();
     getListRubyContrib();
@@ -63,16 +66,22 @@ public class RubyconPresenter implements RubyconContract.Presenter {
                         Log.e(TAG, e.getMessage());
                         switch (((HttpException) e).code()) {
                             case 401:
-                                mView.showToast("Check your auth token");
+                                mView.showToast("Check your auth github token");
                                 break;
                             default:
-                                mView.showToast("Problem with connection");
+                                mView.showToast("Problem with connection to github");
                         }
                       }
 
                       @Override public void onNext(List<ContributorStats> contributors) {
-                        mView.showList(contributors);
+                        mView.showList(cutList(contributors));
                       }
                     }));
   }
+
+    private List<ContributorStats> cutList(List<ContributorStats> contributors) {
+        Collections.reverse(contributors);
+        return contributors.subList(0, 25);
+
+    }
 }

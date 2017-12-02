@@ -20,6 +20,6 @@ public interface RubyconContract {
 
   public interface Presenter {
 
-    void onStart();
+    void downloadContributors();
   }
 }

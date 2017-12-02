@@ -3,8 +3,6 @@ package sun.sylvia.rubycontr.di;
 import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import sun.sylvia.rubycontr.R;
 import sun.sylvia.rubycontr.di.scope.ApplicationScope;
 import sun.sylvia.rubycontr.github.GithubApi;

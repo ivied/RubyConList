@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -14,7 +15,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import sun.sylvia.rubycontr.R;
 import sun.sylvia.rubycontr.github.ContributorStats;
 import sun.sylvia.rubycontr.ui.RubyconContract;
@@ -71,7 +71,7 @@ public class ContributorsStatsAdapter extends RecyclerView.Adapter<ContributorsS
 
         @BindView(R.id.contributor_login) TextView contributorLoginTv;
         @BindView(R.id.contributor_commit_count) TextView contributorCommitCountTv;
-        @BindView(R.id.contributor_profile_image) CircleImageView contributorProfileImage;
+        @BindView(R.id.contributor_profile_image) ImageView contributorProfileImage;
 
 
         public ViewHolder(View itemView) {

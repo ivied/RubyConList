@@ -1,8 +1,7 @@
 <resources>
   <string name="app_name">Rubycon</string>
-  <!-- Just token from test account -->
-  <!-- insert your auth token-->
-  <string name="github_oauth_token">7e164f15be21e65ac189a1b9800db6e6233516ef</string>
+
+  <string name="github_oauth_token"><!-- Insert your auth token--></string>
   <string name="ruby">ruby</string>
 
 
