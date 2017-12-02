@@ -1,0 +1,8 @@
+<resources>
+  <string name="app_name">Rubycon</string>
+  <!-- Just token from test account -->
+  <string name="github_oauth_token">e3585fc7da31ab967496499b3a404c3b0f73aea0</string>
+  <string name="ruby">ruby</string>
+
+
+</resources>
