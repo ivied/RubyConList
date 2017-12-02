@@ -12,8 +12,7 @@ import retrofit2.http.Path;
 public interface GithubApi {
 
   @GET("/repos/{owner}/{repo}/contributors")
-  Observable<List<Contributor>> contributors(
-      @Path("owner") String owner, @Path("repo") String repo);
+  Observable<List<Contributor>> contributors(@Path("owner") String owner, @Path("repo") String repo);
 
   @GET("/repos/{owner}/{repo}/contributors")
   List<Contributor> getContributors(@Path("owner") String owner, @Path("repo") String repo);

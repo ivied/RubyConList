@@ -48,8 +48,6 @@ public class RubyconFragment extends Fragment implements RubyconContract.View{
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    // Just token from test account
-    String githubToken = getResources().getString(R.string.github_oauth_token);
     disposables = new CompositeDisposable();
   }
 
