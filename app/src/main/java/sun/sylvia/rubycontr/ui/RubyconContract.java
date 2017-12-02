@@ -1,6 +1,5 @@
 package sun.sylvia.rubycontr.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sun.sylvia.rubycontr.github.ContributorStats;

@@ -1,16 +1,11 @@
 package sun.sylvia.rubycontr.ui;
 
-import android.content.res.Resources;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -18,7 +13,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import sun.sylvia.rubycontr.R;
 import sun.sylvia.rubycontr.github.ContributorStats;
 import sun.sylvia.rubycontr.github.GithubApi;
 

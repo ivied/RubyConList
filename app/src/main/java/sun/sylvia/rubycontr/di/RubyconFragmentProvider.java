@@ -1,4 +1,4 @@
-package sun.sylvia.rubycontr.ui;
+package sun.sylvia.rubycontr.di;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
